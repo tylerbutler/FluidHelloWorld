@@ -7,8 +7,8 @@ import { getDefaultObjectFromContainer } from "@fluidframework/aqueduct";
 import { getTinyliciousContainer } from "@fluidframework/get-tinylicious-container";
 
 import { DiceRollerContainerRuntimeFactory } from "./containerCode";
-import { IDiceRoller } from "./dataObject";
-import { renderDiceRoller } from "./view";
+import { ICounterPlus } from "./dataObject";
+import { renderCounter } from "./view";
 
 // In interacting with the service, we need to be explicit about whether we're creating a new document vs. loading
 // an existing one.  We also need to provide the unique ID for the document we are creating or loading from.
@@ -34,11 +34,11 @@ async function start(): Promise<void> {
     const container = await getTinyliciousContainer(documentId, DiceRollerContainerRuntimeFactory, createNew);
 
     // In this app, we know our container code provides a default data object that is an IDiceRoller.
-    const diceRoller: IDiceRoller = await getDefaultObjectFromContainer<IDiceRoller>(container);
+    const diceRoller: ICounterPlus = await getDefaultObjectFromContainer<ICounterPlus>(container);
 
     // Given an IDiceRoller, we can render the value and provide controls for users to roll it.
     const div = document.getElementById("content") as HTMLDivElement;
-    renderDiceRoller(diceRoller, div);
+    renderCounter(diceRoller, div);
 
     // Reload the page on any further hash changes, e.g. in case you want to paste in a different document ID.
     window.addEventListener("hashchange", () => {

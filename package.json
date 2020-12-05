@@ -14,9 +14,12 @@
   },
   "dependencies": {
     "@fluidframework/aqueduct": "^0.26.0",
+    "@fluidframework/core-interfaces": "^0.26.0",
     "@fluidframework/counter": "^0.26.0",
     "@fluidframework/get-tinylicious-container": "^0.26.0",
-    "@fluidframework/map": "^0.26.0"
+    "@fluidframework/map": "^0.26.0",
+    "htm": "^3.0.4",
+    "preact": "^10.5.7"
   },
   "devDependencies": {
     "clean-webpack-plugin": "^3.0.0",
