@@ -43,10 +43,12 @@ export class CounterPlus extends DataObject implements ICounterPlus {
         // stash the sharedCounter for synchronous access
         this.internalCounter = await this.root.get<IFluidHandle<SharedCounter>>(counterKey).get();
         this.internalCounter.on("incremented", (incrementedAmount, newValue) => {
+            console.log(`incrementing by ${incrementedAmount} ==> ${newValue}`);
             this.emit("incremented", incrementedAmount, newValue);
         });
 
         this.root.on("valueChanged", (changed: IValueChanged) => {
+            console.log(`valueChanged: ${changed.key} (was ${changed.previousValue})`);
             if (changed.key.startsWith("_")) {
                 this.emit("propertyChanged", changed.key.substring(1), changed.previousValue);
             }
@@ -68,7 +70,7 @@ export class CounterPlus extends DataObject implements ICounterPlus {
         return this.root.get<boolean>(canBeNegativeKey);
     }
 
-    public readonly increment = (step?: number) => {
+    public increment = (step?: number) => {
         if (this.stepValue) {
             step = this.stepValue;
         } else {
@@ -88,7 +90,7 @@ export class CounterPlus extends DataObject implements ICounterPlus {
  * The DataObjectFactory is used by Fluid Framework to instantiate our DataObject.  We provide it with a unique name
  * and the constructor it will call.  In this scenario, the third and fourth arguments are not used.
  */
-export const DiceRollerInstantiationFactory = new DataObjectFactory(
+export const CounterPlusInstantiationFactory = new DataObjectFactory(
     "counter-plus",
     CounterPlus,
     [SharedCounter.getFactory()],
