@@ -15,6 +15,7 @@
     "dependencies": {
         "@fluid-experimental/fluid-framework": "^0.41.0",
         "@fluid-experimental/fluid-static": "^0.41.0",
+        "@fluid-experimental/frs-client": "^0.41.4",
         "@fluid-experimental/tinylicious-client": "^0.41.0",
         "react": "^17.0.2",
         "react-dom": "^17.0.2",

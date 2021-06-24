@@ -4,8 +4,8 @@
  */
 
 import { ISharedMap, SharedMap } from "@fluid-experimental/fluid-framework";
-import { FrsConnectionConfig, FrsClient } from '@fluid-experimental/frs-client';
 import type { ContainerSchema } from '@fluid-experimental/fluid-static';
+import { FrsClient, FrsConnectionConfig } from '@fluid-experimental/frs-client';
 import TinyliciousClient from '@fluid-experimental/tinylicious-client';
 import { getContainerId } from './utils';
 import { vueRenderView as renderView } from './view';
@@ -38,8 +38,8 @@ async function start() {
 
     const client = useFrs ? FrsClient : TinyliciousClient;
     const [fluidContainer] = isNew
-        ? (await client.createContainer({ id }, containerSchema))
-        : (await client.getContainer({ id }, containerSchema));
+        ? (await client.createContainer(serviceConfig, containerSchema))
+        : (await client.getContainer(serviceConfig, containerSchema));
 
 
     renderView(
