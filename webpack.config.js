@@ -5,12 +5,13 @@
 
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
 
 module.exports = env => {
     const htmlTemplate = "./src/index.html";
     const plugins = env && env.clean
-        ? [new CleanWebpackPlugin(), new HtmlWebpackPlugin({ template: htmlTemplate })]
-        : [new HtmlWebpackPlugin({ template: htmlTemplate })];
+        ? [new CleanWebpackPlugin(), new Dotenv(), new HtmlWebpackPlugin({ template: htmlTemplate })]
+        : [new Dotenv(), new HtmlWebpackPlugin({ template: htmlTemplate })];
 
     const mode = env && env.prod
         ? "production"

@@ -9,21 +9,26 @@ import { FrsClient, FrsConnectionConfig } from '@fluid-experimental/frs-client';
 import TinyliciousClient from '@fluid-experimental/tinylicious-client';
 import { getContainerId } from './utils';
 import { vueRenderView as renderView } from './view';
+const dotenv = require('dotenv');
+
+// Load env variables from .env file
+dotenv.config();
 
 // Define the server we will be using and initialize Fluid
-const useFrs = true;
+const service = process.env.FRS_SERVICE || "TINY";
 
 const connectionConfig: FrsConnectionConfig = {
-  type: "key",
-  tenantId: "",
-  key: "",
-  orderer: "",
-  storage: "",
+    type: "key",
+    tenantId: process.env.FRS_TENANT!,
+    key: process.env.FRS_KEY!,
+    orderer: process.env.FRS_ORDERER!,
+    storage: process.env.FRS_STORAGE!,
 };
-if (useFrs) {
-  FrsClient.init(connectionConfig);
+
+if (service === "FRS") {
+    FrsClient.init(connectionConfig);
 } else {
-  TinyliciousClient.init();
+    TinyliciousClient.init();
 }
 
 const { id, isNew } = getContainerId();
@@ -36,14 +41,14 @@ async function start() {
         initialObjects: { dice: SharedMap }
     };
 
-    const client = useFrs ? FrsClient : TinyliciousClient;
+    const client = service ? FrsClient : TinyliciousClient;
     const [fluidContainer] = isNew
         ? (await client.createContainer(serviceConfig, containerSchema))
         : (await client.getContainer(serviceConfig, containerSchema));
 
 
     renderView(
-        fluidContainer.initialObjects.dice as ISharedMap, 
+        fluidContainer.initialObjects.dice as ISharedMap,
         document.getElementById('content') as HTMLDivElement
     );
 }
